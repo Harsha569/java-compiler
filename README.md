@@ -19,6 +19,28 @@ The parser supports:
 - ✅ `this` and `super` keywords
 - ✅ System.out.println/print
 
+## Quick Start
+
+### Using PowerShell Script (Easiest)
+
+```powershell
+cd C:\Users\admin\OneDrive\Desktop\Java-compiler
+
+# Test all files
+.\run.ps1
+
+# Test specific file
+.\run.ps1 test testcase_2.java
+
+# Rebuild parser
+.\run.ps1 rebuild
+
+# Rebuild and test
+.\run.ps1 rebuild-test
+```
+
+See `COMMANDS.md` for all available commands and manual options.
+
 ## Files
 
 ### Source Files
