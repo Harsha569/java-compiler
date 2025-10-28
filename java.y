@@ -142,6 +142,42 @@ class_body_declarations:
 class_body_declaration:
     field_declaration
     | method_declaration
+    | constructor_declaration
+    ;
+
+/* ==================== CONSTRUCTOR DECLARATIONS ==================== */
+
+constructor_declaration:
+    PUBLIC IDENTIFIER LPAREN formal_parameter_list RPAREN method_body
+    {
+        printf("  - Constructor: %s(...)\n", $2);
+        free($2);
+    }
+    | PUBLIC IDENTIFIER LPAREN RPAREN method_body
+    {
+        printf("  - Constructor: %s()\n", $2);
+        free($2);
+    }
+    | PRIVATE IDENTIFIER LPAREN formal_parameter_list RPAREN method_body
+    {
+        printf("  - Constructor: %s(...)\n", $2);
+        free($2);
+    }
+    | PRIVATE IDENTIFIER LPAREN RPAREN method_body
+    {
+        printf("  - Constructor: %s()\n", $2);
+        free($2);
+    }
+    | PROTECTED IDENTIFIER LPAREN formal_parameter_list RPAREN method_body
+    {
+        printf("  - Constructor: %s(...)\n", $2);
+        free($2);
+    }
+    | PROTECTED IDENTIFIER LPAREN RPAREN method_body
+    {
+        printf("  - Constructor: %s()\n", $2);
+        free($2);
+    }
     ;
 
 /* ==================== FIELD DECLARATIONS ==================== */
@@ -242,46 +278,6 @@ method_declaration:
         printf("  - Method: void %s()\n", $2);
         free($2);
     }
-    | PUBLIC IDENTIFIER LPAREN formal_parameter_list RPAREN method_body
-    {
-        printf("  - Constructor: %s(...)\n", $2);
-        free($2);
-    }
-    | PUBLIC IDENTIFIER LPAREN RPAREN method_body
-    {
-        printf("  - Constructor: %s()\n", $2);
-        free($2);
-    }
-    | PRIVATE IDENTIFIER LPAREN formal_parameter_list RPAREN method_body
-    {
-        printf("  - Constructor: %s(...)\n", $2);
-        free($2);
-    }
-    | PRIVATE IDENTIFIER LPAREN RPAREN method_body
-    {
-        printf("  - Constructor: %s()\n", $2);
-        free($2);
-    }
-    | PROTECTED IDENTIFIER LPAREN formal_parameter_list RPAREN method_body
-    {
-        printf("  - Constructor: %s(...)\n", $2);
-        free($2);
-    }
-    | PROTECTED IDENTIFIER LPAREN RPAREN method_body
-    {
-        printf("  - Constructor: %s()\n", $2);
-        free($2);
-    }
-    | IDENTIFIER LPAREN formal_parameter_list RPAREN method_body
-    {
-        printf("  - Constructor: %s(...)\n", $1);
-        free($1);
-    }
-    | IDENTIFIER LPAREN RPAREN method_body
-    {
-        printf("  - Constructor: %s()\n", $1);
-        free($1);
-    }
     ;
 
 method_body:
@@ -317,7 +313,7 @@ type:
 block:
     LBRACE block_statements RBRACE
     ;
-
+ 
 block_statements:
     /* empty */
     | block_statements block_statement
@@ -369,6 +365,8 @@ statement_expression:
     assignment
     | method_invocation
     | class_instance_creation
+    | IDENTIFIER INCREMENT { free($1); }
+    | IDENTIFIER DECREMENT { free($1); }
     ;
 
 if_statement:
@@ -502,6 +500,7 @@ assignment:
     | IDENTIFIER DIV_ASSIGN expression { free($1); }
     | IDENTIFIER LBRACKET expression RBRACKET ASSIGN expression { free($1); }
     | IDENTIFIER DOT IDENTIFIER ASSIGN expression { free($1); free($3); }
+    | THIS DOT IDENTIFIER ASSIGN expression { free($3); }
     ;
 
 conditional_expression:
